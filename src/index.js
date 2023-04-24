@@ -3,12 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter,HashRouter } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AppRouter from './components/Routes/routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <>
+  <ToastContainer />
+  <HashRouter>
+  {/* <React.StrictMode> */}
+  <AppRouter />
+  {/* </React.StrictMode> */}
+  </HashRouter>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function
