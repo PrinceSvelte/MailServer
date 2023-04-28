@@ -1,5 +1,4 @@
 import React,{useState,useCallback, useEffect} from 'react'
-import { Star,StarFill } from 'react-bootstrap-icons'
 import UnfillStar from "../../assets/images/Unfill-star.svg";
 import FillStar from "../../assets/images/Fill-star.svg";
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -9,7 +8,6 @@ const CommonPin = (props) => {
     var count =0;
     var tempPin = ""
     const [pin,setPin] = useState("")
-    const [storedPin,setStoredPin] = useState("")
     const { state } = useLocation();
     const navigate = useNavigate()
     const starsArr = [
@@ -79,36 +77,7 @@ const CommonPin = (props) => {
                       tempPin=""
                 }
             }
-        //     if(count ===6){
-        //         const tempPin = localStorage.getItem("pin")
-        //         const res = await window.to_electron.deCryptPin("prince",tempPin)
-        //         console.log(res,"decryptedPin",pin)
-        //     }
-        //     else {
-        //                 starsArr[count] = <StarFill className='star-fill' />;
-        //     setStars(starsArr);
-        //     tempPin += event.key;
-        //     setPin(tempPin);
-        // }
-            
-        //   var pattern = "0123456789012345789";
-        //   if (pattern.indexOf(tempPin) !== -1) {
-        //     Toaster("error","Don't add number in sequence !!")
-        //     for (let i = 0; i < 6; i++) {
-        //       starsArr[i] = <Star className='star-unfill' />;
-        //     }
-        //     count = 0;
-        //     setPin("");
-        //   } else {
-        //     starsArr[count] = <StarFill className='star-fill' />;
-        //     setStars(starsArr);
-        //     tempPin += event.key;
-        //     setPin(tempPin);
-        // let res = await window.to_electron.enCryptPin("prince",tempPin)
-        // console.log("encryption response",res)
-        // navigate("/confirm-pin")
-          
-        //   }
+     
         }
       }, []);
 
@@ -122,12 +91,6 @@ const CommonPin = (props) => {
           <div className='input-pin'>
            {props.children}
             <div className='star'>
-            {/* <Star className='star-unfill' />
-            <Star  className='star-unfill'/>
-            <Star  className='star-unfill' />
-            <Star  className='star-unfill'/>
-            <Star  className='star-unfill' />
-            <Star  className='star-unfill' /> */}
             {stars.map((item,i) => {
               return (
               <span style={{margin:"5px"}} key={i}>{item}</span>
@@ -135,20 +98,6 @@ const CommonPin = (props) => {
             })}
             </div>
             </div>
-            {/* <div className='numbers'> */}
-              {/* <div className='group'> */}
-                {/* {numbers.map((num,i) => {
-                  return (
-                   <span>{num}</span>
-                  )
-                })} */}
-                {/* <span>1</span>
-                <span>2</span>
-                <span>3</span> */}
-              {/* </div> */}
-        
-            {/* </div> */}
-        
           <div className='numbers-container'>
     
           </div>

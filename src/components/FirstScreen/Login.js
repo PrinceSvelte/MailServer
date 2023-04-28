@@ -55,7 +55,6 @@ const FirstScreen = () => {
       }else {
         Toaster("error","No Valid Response From Server!")
       }
-      // navigate("/otp")
     }
 
   }
