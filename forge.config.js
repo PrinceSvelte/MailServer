@@ -2,6 +2,7 @@ module.exports = {
   packagerConfig: {
     // ignore: ["^\\/node_modules$"],
     asar: true,
+    icon: "./src/assets/images/login-logo2",
   },
   rebuildConfig: {},
   plugins: [
@@ -21,7 +22,17 @@ module.exports = {
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        options: {
+          icon: "./src/assets/images/login-logo2.png",
+        },
+      },
+    },
+    {
+      name: "@electron-forge/maker-dmg",
+      config: {
+        icon: "./src/assets/images/app-logo.icns",
+      },
     },
     {
       name: '@electron-forge/maker-rpm',
