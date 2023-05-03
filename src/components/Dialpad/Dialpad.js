@@ -4,11 +4,13 @@ import Toaster from '../utils/Toaster'
 import { useNavigate } from 'react-router-dom'
 import UnfillStar from "../../assets/images/Unfill-star.svg";
 import FillStar from "../../assets/images/Fill-star.svg";
+import Example from '../Modal/AntivirusModal';
 
 const Dialpad = () => {
   var count = 0;
   let tempPin = "";
   const navigate = useNavigate()
+  const [showModal,setShowModal] = useState(true)
 
   const starsArr = [
     < img src={UnfillStar} />,
@@ -110,10 +112,14 @@ useEffect(() => {
   return () => window.removeEventListener("keydown",registerKeyPress  )
 }, [registerKeyPress]);
 
+const handleShowModal = () => {
+  setShowModal(false)
+}
 
 
   return (
     <div className='dialpad-container'>
+      {showModal ? <Example handleShowModal={handleShowModal} showModal={showModal} /> :
       <div className='input-pin'>
         <h2>Create Your Pin</h2>
         <div className='star'>
@@ -124,6 +130,7 @@ useEffect(() => {
         })}
         </div>
         </div>
+}
     </div>
   )
 }

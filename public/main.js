@@ -21,7 +21,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: true,
       webviewTag: true,
-      devTools:false
+      // devTools:false
     }
   });
   win.loadURL(
