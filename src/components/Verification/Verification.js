@@ -16,12 +16,9 @@ const Verification = () => {
     const sendOtp = async() => {
         const userData = JSON.parse(localStorage.getItem("userData"))
         setPhoneNumber(userData?.phoneNumber)
-        // console.log(userData,"userData")
-        // const phoneNumber = userData?.phoneNumber
         let payload = {
             "phoneNumber":userData?.phoneNumber
         }
-        // console.log(phoneNumber)
         const res = await ApiHandle(SEND_OTP, payload, "POST")
         if(res.statusCode === 201){
             Toaster("success",`Please Enter Otp ${res?.responsePayload?.otp} !`)
@@ -60,7 +57,6 @@ const Verification = () => {
     },[])
 
     const verifyOTP = async() => {
-        console.log(otp.length)
         if(otp.length<4){
             Toaster("error",`Please Enter ${tempOtp.length} more digit to verify Otp !`)
             return
@@ -93,7 +89,6 @@ const Verification = () => {
         <div>
             <span>Enter the code</span>
         </div>
-        {console.log(otp)}
         <div className='verification-group'>
         <span>{otp[0]}</span>
         <span>{otp[1]}</span>

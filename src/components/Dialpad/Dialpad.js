@@ -1,7 +1,5 @@
 import React, { useEffect, useState,useCallback } from 'react'
 import "./Dialpad.css"
-import {Star,XCircleFill,CheckCircleFill,StarFill} from "react-bootstrap-icons"
-import { Col, Container, Row } from 'react-bootstrap'
 import Toaster from '../utils/Toaster'
 import { useNavigate } from 'react-router-dom'
 import UnfillStar from "../../assets/images/Unfill-star.svg";
@@ -11,14 +9,6 @@ const Dialpad = () => {
   var count = 0;
   let tempPin = "";
   const navigate = useNavigate()
-  const antivirus = ["KASPERSKY","MACFEE"]
-
-  // const starsArr = [        <Star className='star-unfill' />,
-  // <Star  className='star-unfill'/>,
-  // <Star  className='star-unfill' />,
-  // <Star  className='star-unfill'/>,
-  // <Star  className='star-unfill' />,
-  // <Star  className='star-unfill' />]
 
   const starsArr = [
     < img src={UnfillStar} />,
@@ -52,22 +42,23 @@ const Dialpad = () => {
   },[])
 
   useEffect(() => {
-    let year,month,date = ""
-    let combinedDate=""
-    let currentDate = new Date("")
+    //FOR FUTURE REFERENCE
+    // let year,month,date = ""
+    // let combinedDate=""
+    // let currentDate = new Date("")
     for(let i=0;i<softwares.length;i++){
       if(softwares[i]?.DisplayName && softwares[i]?.Version){
         for (var j = antivirusArr.length - 1; j >= 0; --j) {
           if (softwares[i]?.DisplayName.toUpperCase().indexOf(antivirusArr[j]) !== -1) {
-            let length = softwares[i]?.InstallDate.length
-            year = softwares[i]?.InstallDate.slice(0,4)
-            month = softwares[i]?.InstallDate.slice(year.length,year.length+2)
-            date = softwares[i]?.InstallDate.slice(year.length+2,length)
-            combinedDate = year.trim() + "-" + month.trim() + "-" + date.trim()
-            const dateDiff = (currentDate.getTime()-new Date(combinedDate).getTime())/(24*3600*1000)
-            if(Math.abs(dateDiff) > 7){
-              setMsg("Ohh! Antivirus Outdated Please Update Your Antivirus")
-            }
+            // let length = softwares[i]?.InstallDate.length
+            // year = softwares[i]?.InstallDate.slice(0,4)
+            // month = softwares[i]?.InstallDate.slice(year.length,year.length+2)
+            // date = softwares[i]?.InstallDate.slice(year.length+2,length)
+            // combinedDate = year.trim() + "-" + month.trim() + "-" + date.trim()
+            // const dateDiff = (currentDate.getTime()-new Date(combinedDate).getTime())/(24*3600*1000)
+            // if(Math.abs(dateDiff) > 7){=
+            //   setMsg("Ohh! Antivirus Outdated Please Update Your Antivirus")
+            // }
             setIsFound(true)
             setLoading(false)
             return
@@ -76,7 +67,6 @@ const Dialpad = () => {
             setIsFound(false)
           }
         }
-        // arr.push(softwares[i]?.DisplayName)
       }
     }
  
@@ -116,13 +106,9 @@ const Dialpad = () => {
         setStars(starsArr);
         tempPin += event.key;
         setPin(tempPin);
-    // let res = await window.to_electron.enCryptPin("prince",tempPin)
-    // localStorage.setItem("pin",res)
-    // console.log("encryption response",res)
     navigate("/confirm-pin",  {
       state: {
         pin:tempPin
-        //...values
       }})
     return
       }
@@ -131,60 +117,13 @@ const Dialpad = () => {
 
 
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const setter = () => {
-  //       document.addEventListener("keypress", function onPress(event) {
-  //     // console.log(stars.length,"stars")
-  //     const isNumber = isFinite(event.key);
-  //     if(!isNumber){
-  //       return
-  //     }
-  //     if(count_1 <6){
-  //     console.log(pin,"pin2")
-  //      stars[count_1] = <StarFill className='star-fill' />
-  //      count_1++
-  //     setCount(count+1)
-  //      setStars(starsArr)
-  //       setPin((prev) => prev + event.key)
-  //     }
-
-  // })
-  // }
-//   useEffect(() => {
-//     setter()
-//     console.log(count)
-//     // console.log(starsArr,"stars1")
-// //  const dialpad =    document.getElementsByClassName("dialpad-container")
-// ;
-//   },[count])
-
 useEffect(() => {
   window.addEventListener("keydown", registerKeyPress);
 
   return () => window.removeEventListener("keydown",registerKeyPress  )
 }, [registerKeyPress]);
 
-  // useEffect(() => {
-  //   var pattern = '0123456789012345789'
 
-  //   if(pin.length === 6){
-  //     console.log(pin.length,pin,pattern.indexOf(pin))
-  //     if(pattern.indexOf(pin) !== -1) {
-  //       console.log(pin,"pins")
-  //       Toaster("error","Don't Enter Numbers In Sequence");
-  //       for(let i=0;i<6;i++){
-  //         starsArr[i] =   <Star  className='star-unfill'/>
-  //       }
-  //     //  setCount(0)
-  //     setCount(0)
-  //     count_1=0;
-  //       setPin("")
-  //       setStars(starsArr)
-  //       return
-  //     }
-  //   }
-  // },[pin.length])
-  const numbers=[1,2,3,4,5,6,7,8,9,<XCircleFill className='cross' />,0,<CheckCircleFill className='correct'/>]
 
   return (
     <div className='dialpad-container'>

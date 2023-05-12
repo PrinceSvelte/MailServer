@@ -9,7 +9,6 @@ const CommonPin = (props) => {
     var count =0;
     var tempPin = ""
     const [pin,setPin] = useState("")
-    const [storedPin,setStoredPin] = useState("")
     const { state } = useLocation();
     const navigate = useNavigate()
     const starsArr = [
@@ -56,7 +55,7 @@ const CommonPin = (props) => {
                 if(decryptedPin){
                   secretPin=decryptedPin
                 }
-                // console.log(state,"state",decryptedPin,secretPin,tempPin)
+
                 if(secretPin=== tempPin){
                     Toaster("success","Pin verified Successfully !")
                     navigate("/register")
@@ -65,8 +64,6 @@ const CommonPin = (props) => {
                     }else{
                         let res = await window.to_electron.enCryptPin("prince",tempPin)
                     localStorage.setItem("token",res)
-                    // console.log(res,"decryptedPin",tempPin)
-                    // navigate("/register")
                     return
                     }
                 }else {
@@ -79,36 +76,6 @@ const CommonPin = (props) => {
                       tempPin=""
                 }
             }
-        //     if(count ===6){
-        //         const tempPin = localStorage.getItem("pin")
-        //         const res = await window.to_electron.deCryptPin("prince",tempPin)
-        //         console.log(res,"decryptedPin",pin)
-        //     }
-        //     else {
-        //                 starsArr[count] = <StarFill className='star-fill' />;
-        //     setStars(starsArr);
-        //     tempPin += event.key;
-        //     setPin(tempPin);
-        // }
-            
-        //   var pattern = "0123456789012345789";
-        //   if (pattern.indexOf(tempPin) !== -1) {
-        //     Toaster("error","Don't add number in sequence !!")
-        //     for (let i = 0; i < 6; i++) {
-        //       starsArr[i] = <Star className='star-unfill' />;
-        //     }
-        //     count = 0;
-        //     setPin("");
-        //   } else {
-        //     starsArr[count] = <StarFill className='star-fill' />;
-        //     setStars(starsArr);
-        //     tempPin += event.key;
-        //     setPin(tempPin);
-        // let res = await window.to_electron.enCryptPin("prince",tempPin)
-        // console.log("encryption response",res)
-        // navigate("/confirm-pin")
-          
-        //   }
         }
       }, []);
 

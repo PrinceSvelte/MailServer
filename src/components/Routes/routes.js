@@ -13,7 +13,6 @@ import Verification from '../Verification/Verification'
 
 const AppRouter = () => {
     const isRegitered = localStorage.getItem("isRegistered")
-    console.log(isRegitered,"isregs")
     const isPin = localStorage.getItem("token")
   return (
 <Routes>
