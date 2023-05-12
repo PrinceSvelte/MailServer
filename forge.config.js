@@ -2,6 +2,7 @@ module.exports = {
   packagerConfig: {
     // ignore: ["^\\/node_modules$"],
     asar: true,
+    icon:"./src/assets/images/login-logo2.png"
   },
   rebuildConfig: {},
   plugins: [
@@ -13,7 +14,7 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+
     },
     {
       name: '@electron-forge/maker-zip',

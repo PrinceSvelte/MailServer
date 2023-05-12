@@ -1,5 +1,5 @@
 {
-  "name": "electron-app",
+  "name": "MailServer",
   "version": "0.1.0",
   "private": true,
   "main": "public/main.js",
@@ -21,7 +21,6 @@
     "electron-is-dev": "^1.2.0",
     "electron-squirrel-startup": "^1.0.0",
     "fetch-installed-software": "^0.0.7",
-    "node-openvpn": "^0.1.1",
     "openvpn-client": "^0.0.2",
     "openvpn-lib": "^1.0.2",
     "path": "^0.12.7",
