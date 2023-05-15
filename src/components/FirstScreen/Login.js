@@ -27,7 +27,7 @@ const FirstScreen = () => {
   const handleLoader = () => {
     setLoading((prev) => !prev)
   }
-  const handleChange = (e) => {
+  const handleChange = async(e) => {
     const {value,name} = e.target
     let newValue = value
     if(name === "phoneNumber") {
@@ -40,13 +40,16 @@ const FirstScreen = () => {
     }))
   }
   const handleSubmit = async(e) => {
-   
     e.preventDefault()
-    const resp = await ApiHandle(REGISTER, formDetails, "POST",handleLoader);
+    let _formDetails = {}
+    for(let [key,value] of Object.entries(formDetails)){
+      _formDetails[key] = await window.to_electron.enCryptPin(value)
+    }
+    const resp = await ApiHandle(REGISTER, _formDetails, "POST",handleLoader);
     if(resp.statusCode === 201 ){
-      if(resp.statusCode !==409){
+      // if(resp.statusCode !==409){
       Toaster("success",resp?.responsePayload?.message );
-      }
+      // }
       const response = resp?.responsePayload?.result
       if(response){
       localStorage.setItem("isRegistered",true)

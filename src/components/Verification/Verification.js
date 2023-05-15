@@ -9,7 +9,6 @@ const Verification = () => {
     let tempOtp = ""
     let count = 0
     const navigate = useNavigate()
-    const numbers = ['1','2','3','4']
     const [otp,setOtp] = useState("")
     const [phoneNumber,setPhoneNumber] = useState("")
 
@@ -62,7 +61,7 @@ const Verification = () => {
             return
         }
         let payload = {
-            "phoneNumber":phoneNumber,
+            "phoneNumber": phoneNumber,
             "otp":otp
         }
         const res = await ApiHandle(VERIFY_OTP,payload,"POST")

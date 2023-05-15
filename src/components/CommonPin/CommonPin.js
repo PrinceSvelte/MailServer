@@ -49,20 +49,19 @@ const CommonPin = (props) => {
             if(tempPin.length === 6){
                 let secretPin = state?.pin
                 if(!state?.pin){
-                       const storagePin = JSON.stringify(localStorage.getItem("token"))
-                  decryptedPin = await window.to_electron.deCryptPin("prince",storagePin)
+                       const storagePin = localStorage.getItem("token")
+                  decryptedPin = await window.to_electron.deCryptPin(storagePin)
             }
                 if(decryptedPin){
                   secretPin=decryptedPin
                 }
-
                 if(secretPin=== tempPin){
                     Toaster("success","Pin verified Successfully !")
                     navigate("/register")
                     if(decryptedPin){
                       return
                     }else{
-                        let res = await window.to_electron.enCryptPin("prince",tempPin)
+                        let res = await window.to_electron.enCryptPin(tempPin)
                     localStorage.setItem("token",res)
                     return
                     }
