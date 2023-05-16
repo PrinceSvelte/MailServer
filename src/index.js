@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import reportWebVitals from './reportWebVitals';
-import { HashRouter } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { HashRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AppRouter from './components/Routes/routes';
+import AppRouter from "./components/Routes/routes";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-  <ToastContainer />
-  <HashRouter>
-  {/* <React.StrictMode> */}
-  <AppRouter />
-  {/* </React.StrictMode> */}
-  </HashRouter>
+    <ToastContainer />
+    <HashRouter>
+      {/* <React.StrictMode> */}
+      <AppRouter />
+      {/* </React.StrictMode> */}
+    </HashRouter>
   </>
 );
 
