@@ -81,3 +81,8 @@
     display: flex;
     justify-content: space-around;
 }
+
+.resend:disabled,
+.resend[disabled] {
+    background-color: #383B4F;
+}

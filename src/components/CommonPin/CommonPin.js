@@ -23,7 +23,7 @@ const CommonPin = (props) => {
     const [stars,setStars] = useState(starsArr)
 
     const registerKeyPress = useCallback(async(event) => {
-      if(event.key === "Backspace"){
+      if(event.key === "Backspace" && tempPin.length > 0){
         tempPin = tempPin.substring(0, tempPin.length-1);
         setPin(tempPin)
         count--

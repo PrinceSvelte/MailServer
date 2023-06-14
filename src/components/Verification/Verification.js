@@ -5,18 +5,35 @@ import ApiHandle from '../utils/ApiHandle'
 import { SEND_OTP, VERIFY_OTP } from '../utils/constants'
 import Toaster from '../utils/Toaster'
 import { useNavigate } from 'react-router-dom'
+import Timer from './Timer'
+
+
 const Verification = () => {
     let tempOtp = ""
-    let count = 0
+    var count = 0
     const navigate = useNavigate()
     const [otp,setOtp] = useState("")
     const [phoneNumber,setPhoneNumber] = useState("")
+    const [disable,setDisable] = useState(false)
+    const [isSubmit,setIsSubmit] = useState(false)
+    let otpInterval;
 
-    const sendOtp = async() => {
+    const sendOtp = async(resend) => {
+        if(disable) {
+            Toaster("error","Pleae Wait you can resend otp after 1 min!")
+            return
+        }
         const userData = JSON.parse(localStorage.getItem("userData"))
         setPhoneNumber(userData?.phoneNumber)
         let payload = {
             "phoneNumber":userData?.phoneNumber
+        }
+        setDisable(true)
+        if(resend){
+        setIsSubmit(false)
+        setOtp("")
+        tempOtp = ""
+        count=0
         }
         const res = await ApiHandle(SEND_OTP, payload, "POST")
         if(res.statusCode === 201){
@@ -26,6 +43,7 @@ const Verification = () => {
 
     useEffect(() => {
         sendOtp()
+        return () => clearInterval(otpInterval)
     },[])
 
     const checkOTP = (e) => {
@@ -48,22 +66,23 @@ const Verification = () => {
 
     const storeOTP = useCallback(() => {
         window.addEventListener("keydown",checkOTP)
-    },[])
+    },[disable])
 
     useEffect(() => {
         storeOTP()
         return () => window.removeEventListener("keydown",checkOTP)
-    },[])
+    },[disable])
 
     const verifyOTP = async() => {
         if(otp.length<4){
-            Toaster("error",`Please Enter ${tempOtp.length} more digit to verify Otp !`)
+            Toaster("error",`Please Enter 4 digits to verify Otp !`)
             return
         }
         let payload = {
             "phoneNumber": phoneNumber,
             "otp":otp
         }
+        setIsSubmit(true)
         const res = await ApiHandle(VERIFY_OTP,payload,"POST")
 
         if(res.statusCode === 200){
@@ -77,6 +96,12 @@ const Verification = () => {
             })
         }
     }
+
+    useEffect(() => {
+        if(isSubmit){
+            setIsSubmit(false)
+        }
+    },[otp])
   return (
     <div className='verification-container'>
         <div className='verification-tag'>
@@ -93,18 +118,17 @@ const Verification = () => {
         <span>{otp[1]}</span>
         <span>{otp[2]}</span>
         <span>{otp[3]}</span>
-            {/* {otp.split("").map((num,i) => {
-                return (
-                    // <div className='verification-group'>
-                        <span key={i}>{num}</span>
-                        // </div>
-                
-                )
-            })} */}
         </div>
         <div>
-        <button onClick={() => verifyOTP()} className='verification-submit'>Submit</button>
-        <button onClick={() => sendOtp()} className='verification-submit'>Resend</button>
+            {disable &&
+    <Timer    
+    setDisable={setDisable}
+     />
+            }
+  </div>
+        <div>
+        <button disabled={isSubmit}  onClick={() => verifyOTP()} className='verification-submit resend'>Submit</button>
+        <button disabled={disable} onClick={() => sendOtp(true)} className='verification-submit resend'>Resend</button>
         </div>  
     </div>
   )

@@ -27,7 +27,7 @@ const Dialpad = () => {
   const [loading,setLoading] = useState(true)
   const [msg,setMsg] = useState("")
 
-  const antivirusArr = ["AVAST","KASPERSKY","MCFEE","AVIRA","AVG","BITDEFENDER","VIRUS"]
+  const antivirusArr = ["AVAST","KASPERSKY","MCFEE","AVIRA","AVG","BIT DEFENDER","BITDEFENDER","VIRUS"]
 
   const getData = async() => {  
     let res = await window.to_electron.getInstalledSoftwares()
@@ -48,7 +48,11 @@ const Dialpad = () => {
     // let currentDate = new Date("")
     for(let i=0;i<softwares.length;i++){
       if(softwares[i]?.DisplayName && softwares[i]?.Version){
-        for (var j = antivirusArr.length - 1; j >= 0; --j) {
+        // console.log(softwares[i])
+        // if((softwares[i]?.DisplayName.toUpperCase()) === "AVAST UPDATE HELPER"){
+        //   console.log(i,"soft")
+        // }
+        for (var j = 0; j < antivirusArr.length ; j++) {
           if (softwares[i]?.DisplayName.toUpperCase().indexOf(antivirusArr[j]) !== -1) {
             // let length = softwares[i]?.InstallDate.length
             // year = softwares[i]?.InstallDate.slice(0,4)
@@ -59,10 +63,12 @@ const Dialpad = () => {
             // if(Math.abs(dateDiff) > 7){=
             //   setMsg("Ohh! Antivirus Outdated Please Update Your Antivirus")
             // }
+            window.addEventListener("keydown", registerKeyPress);
             setIsFound(true)
             setLoading(false)
             return
           }else{
+            // console.log("else calling")
             setLoading(false)
             setIsFound(false)
           }
@@ -74,10 +80,14 @@ const Dialpad = () => {
   },[softwares])
 
   const registerKeyPress = useCallback(async(event) => {
+    // console.log(isFound,"isFound")
+    if(event.keyCode === 32){
+      return
+    }
     if(event.key === "Backspace" && tempPin.length>0){
       tempPin = tempPin.substring(0, tempPin.length-1);
       setPin(tempPin)
-      count--
+      count-- 
       starsArr[count] = < img src={UnfillStar} />;
       return
   }
@@ -118,9 +128,8 @@ const Dialpad = () => {
 
 
 useEffect(() => {
-  window.addEventListener("keydown", registerKeyPress);
-
-  return () => window.removeEventListener("keydown",registerKeyPress  )
+    return () => window.removeEventListener("keydown",registerKeyPress  )
+  // return () => window.removeEventListener("keydown",registerKeyPress  )
 }, [registerKeyPress]);
 
 

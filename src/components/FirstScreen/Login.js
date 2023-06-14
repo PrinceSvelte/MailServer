@@ -16,6 +16,7 @@ const FirstScreen = () => {
   })
   const navigate = useNavigate()
   const [loading,setLoading] = useState(false)
+  const [error,setError] = useState("")
 
   useEffect(() => {
     const isRegistered = localStorage.getItem("isRegistered")
@@ -24,24 +25,18 @@ const FirstScreen = () => {
     }
   },[])
 
-  const handleLoader = () => {
-    setLoading((prev) => !prev)
-  }
-  const handleChange = async(e) => {
-    const {value,name} = e.target
-    let newValue = value
-    if(name === "phoneNumber") {
-      newValue =  value.replace(new RegExp(/[^\d]/, 'ig'), "");
-    }
-    setFormDetails((prev) => ({
-      ...prev,
-      [name]:newValue
-
-    }))
-  }
   const handleSubmit = async(e) => {
     e.preventDefault()
+    setError("")
     let _formDetails = {}
+    if(!new RegExp(/^[6-9]{1}[0-9]{9}$/).test(formDetails.phoneNumber)){
+      Toaster("error","Please Enter valid Phone Number")
+      return
+    }
+    if(formDetails.name === "" || formDetails.phoneNumber === "" || formDetails.email === ""){
+      Toaster("error" ,"Please Provide All the details" );
+      return
+    }
     for(let [key,value] of Object.entries(formDetails)){
       _formDetails[key] = await window.to_electron.enCryptPin(value)
     }
@@ -62,6 +57,37 @@ const FirstScreen = () => {
     }
 
   }
+
+  // useEffect(() => {
+  //   const phone_input = document.getElementById("myform_phone")
+  //   phone_input.addEventListener('invalid', () => {
+  //     if(phone_input.value === '') {
+  //       phone_input.setCustomValidity('Enter phone number!');
+  //     } else {
+  //       phone_input.setCustomValidity('Please Enter Valid Phone Number');
+  //     }
+  //   });
+  // },[handleSubmit])
+
+
+
+  const handleLoader = () => {
+    setLoading((prev) => !prev)
+  }
+  const handleChange = async(e) => {
+    const {value,name} = e.target
+    let newValue = value
+    if(name === "phoneNumber") {
+      setError("")
+      newValue =  value.replace(new RegExp(/[^\d]/, 'ig'), "");
+    }
+    setFormDetails((prev) => ({
+      ...prev,
+      [name]:newValue
+
+    }))
+  }
+
   return (
     <div className='login-container'>
       
@@ -79,8 +105,9 @@ const FirstScreen = () => {
         <input placeholder='Email' type="email" name='email' onChange={(e) => handleChange(e)}/>
         </div>
         <div  className='inputs'>
-        <input placeholder='Phone Number'value={formDetails.phoneNumber} type="text"  name="phoneNumber" maxLength={10} onChange={(e) => handleChange(e)}/>
+        <input placeholder='Phone Number' required  id="myform_phone" value={formDetails.phoneNumber} type="text"  name="phoneNumber" maxLength={10} onChange={(e) => handleChange(e)}/>
         </div>
+        <span style={{color:"red",fontSize:"16px",padding:"6px"}}>{error.length >0 && error}</span>
         <button>               {loading ? (
                   <ThreeDots
                   radius="9"
