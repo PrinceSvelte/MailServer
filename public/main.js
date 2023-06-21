@@ -1,10 +1,9 @@
-const { app, BrowserWindow,session} = require("electron");
-app.commandLine.appendSwitch('ignore-certificate-errors')
+const { app, BrowserWindow, session } = require("electron");
+app.commandLine.appendSwitch("ignore-certificate-errors");
 
 const path = require("path");
 const isDev = require("electron-is-dev");
 require("../src/electron/index");
-
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling
 if (require("electron-squirrel-startup")) {
@@ -21,8 +20,8 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: true,
       webviewTag: true,
-      // devTools:false
-    }
+      // devTools:falsex
+    },
   });
 
   win.loadURL(
@@ -39,7 +38,7 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    details.requestHeaders['User-Agent'] = 'MailServer';
+    details.requestHeaders["User-Agent"] = "MailServer";
     callback({ cancel: false, requestHeaders: details.requestHeaders });
   });
   createWindow();
@@ -49,9 +48,23 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 
+// Check if single instance, if not, simply quit new instance /
+let isSingleInstance = app.requestSingleInstanceLock();
+if (!isSingleInstance) {
+  app.quit();
+}
+
+// Behaviour on second instance for parent process- Pretty much optional
+app.on("second-instance", (event, argv, cwd) => {
+  if (window) {
+    if (window.isMinimized()) window.restore();
+    window.focus();
+  }
+});
+
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    app.quit()
+    app.quit();
   }
 });
 
@@ -61,6 +74,5 @@ app.on("activate", () => {
 
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
-  
   }
 });

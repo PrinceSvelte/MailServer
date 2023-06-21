@@ -68,6 +68,9 @@ const Dialpad = () => {
   // }, [softwares]);
 
   const registerKeyPress = useCallback(async (event) => {
+    if (event.keyCode === 32) {
+      return;
+    }
     if (event.key === "Backspace" && tempPin.length > 0) {
       tempPin = tempPin.substring(0, tempPin.length - 1);
       setPin(tempPin);
